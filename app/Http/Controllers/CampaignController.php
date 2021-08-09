@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 class CampaignController extends Controller
 {
 
-
+    // it is a slug function //
     public function setSlug($name,$company_id) { // generate company wise unique slug //
         $slug = Str::slug($name);
         $original = $slug;

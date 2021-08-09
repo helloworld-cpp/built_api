@@ -36,7 +36,6 @@ class TokenController extends Controller
                 }
 
                 // checking for any duplicate entry of name and company_id in the table tokens//
-                    // running raw sql command on the laravel //
                 if(DB::select( DB::raw("SELECT * FROM `tokens` WHERE `name` LIKE '".$request->name."' AND `company_id` = ".$request->company_id))){
                         return response()->json([
                             'Unsuccessful' => "Unique combination of name and company_id already exists."

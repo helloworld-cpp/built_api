@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+
 Route::post('/insert_token', 'App\Http\Controllers\TokenController@insert');
 Route::post('/insert_campaign', 'App\Http\Controllers\CampaignController@insert');
 

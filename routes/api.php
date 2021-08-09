@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+// its the routing for the two api //
 
 
 Route::post('/insert_token', 'App\Http\Controllers\TokenController@insert');

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Http\Response;
 use function PHPUnit\Framework\assertDirectoryDoesNotExist;
 
 
@@ -18,25 +19,30 @@ class TokenController extends Controller
     public function insert(Request $request){
 
         // validating the user input //
-        $validator = Validator::make($request->all(),[
-                'company_id' => 'required|numeric|exists:companies,id',
-                'name' => 'required|regex:/^[^\s].[a-zA-Z0-9 ]+$/',
+
+        $request->validate([
+            'company_id' => ['required','numeric','exists:companies,id'],
+            'name' => ['required','regex:/^[^\s].[a-zA-Z0-9 ]+$/'],
         ]);
 
 
-        // if any validation fails this shows the error messages //
-
-                // if any typing failure happen by the user //
-                if($validator->fails()){
-                    $messages = $validator->messages();
-                    return response()->json([
-                        $messages,
-                        'Unsuccessful' => "Oops wrong entry."
-                    ]);
-                }
+//        $validator = Validator::make($request->all(),[
+//                'company_id' => 'required|numeric|exists:companies,id',
+//                'name' => 'required|regex:/^[^\s].[a-zA-Z0-9 ]+$/',
+//        ]);
+//
+//
+//        // if any validation fails this shows the error messages //
+//
+//                // if any typing failure happen by the user //
+//                if($validator->fails()){
+//                      return response()->json(
+//                        $validator->messages(),);
+//                }
 
                 // checking for any duplicate entry of name and company_id in the table tokens//
-                if(DB::select( DB::raw("SELECT * FROM `tokens` WHERE `name` LIKE '".$request->name."' AND `company_id` = ".$request->company_id))){
+                $queryCount = DB::table('tokens')->where('name','=',$request->name)->having('company_id','=',$request->company_id)->count();
+                if($queryCount > 0){
                         return response()->json([
                             'Unsuccessful' => "Unique combination of name and company_id already exists."
                         ]);
@@ -44,25 +50,18 @@ class TokenController extends Controller
 
         /*--------------------------------------------------*/
 
-
-        try { // trying to insert into sql database "if successful it will respond"
             $token_key= (string) Str::uuid();
             $insert = [
                 'company_id' => $request->company_id,
                 'name' => $request->name,
                 'token' => $token_key,
             ];
-            Token::insertGetId($insert); //insert into the table:tokens
+            Token::create($insert); //create row into the table:tokens
             return response()->json([
                 $insert,
                 'success' => "Great! created successfully."
             ]);
-        }catch(QueryException $ex){ // catching any exception in sql database //
-                    // if any unpredictable error happens in the database insertion or connectivity //
-                    return response()->json([
-                        $ex->getMessage()
-                    ]);
-        }
+
 
 
     }

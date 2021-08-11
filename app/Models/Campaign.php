@@ -15,6 +15,14 @@ class Campaign extends Model{
         'name',
         'slug',
     ];
+
+    public function companies(){
+        return $this->belongsTo(Company::class);
+    }
+    public function tokens(){
+        return $this->belongsTo(Token::class);
+    }
+
     public function sluggable(){
         return [
             'slug' => [
@@ -22,6 +30,8 @@ class Campaign extends Model{
             ]
         ];
     }
+
+
 
 
     // static method to create Slug //

@@ -16,6 +16,17 @@ class Token extends Model
         'token',
     ];
 
+    public function companies(){
+        return $this->belongsTo(Company::class);
+    }
+
+//    public function setNameAttribute($value){
+//        $this->attributes['name'] = strtolower($value);
+//    }
+//    public function getNameAttribute($value){
+//        return ucfirst($value);
+//    }
+
 
 
 }

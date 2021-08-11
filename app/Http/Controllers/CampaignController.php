@@ -31,13 +31,12 @@ class CampaignController extends Controller{
             }
         }
 
-        $insert = [
+        $insert = Campaign::create([
                 'token_id' => $request->token_id,
                 'company_id' => $request->company_id,
                 'name' => $request->name,
                 'slug'=> Campaign::createSlug($request->name,$request->company_id),
-        ];
-        Campaign::create($insert); //create row into the table:campaigns
+        ]);
 
         return response()->json([
             'success' => "Great! created successfully.",

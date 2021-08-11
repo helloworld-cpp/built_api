@@ -31,13 +31,11 @@ class TokenController extends Controller
             ]);
         }
 
-        $insert = [
+        $insert = Token::create([
             'company_id' => $request->company_id,
             'name' => $request->name,
             'token' => (string) Str::uuid(),
-        ];
-
-        Token::create($insert); //create row into the table:tokens
+        ]);
 
         return response()->json([
             'success' => "Great! created successfully.",

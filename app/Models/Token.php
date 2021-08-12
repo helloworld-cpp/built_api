@@ -25,7 +25,7 @@ class Token extends Model
 //    public function setNameAttribute($value){ // mutator example //
 //        $this->attributes['name'] = strtolower($value);
 //    }
-//    public function getNameAttribute($value){
+//    public function getNameAttribute($value){ // accessor example //
 //        return ucfirst($value);
 //    }
 

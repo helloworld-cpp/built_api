@@ -8,17 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
     use HasFactory;
+    protected $table = 'companies';
 
+    // Relationship with the other tables //
     public function users(){
         return $this->belongsToMany(User::class);
     }
 
     public function tokens(){
-        return $this->belongsToMany(Token::class);
+        return $this->hasMany(Token::class,'company_id');
     }
 
     public function campaignes(){
-        return $this->belongsToMany(Campaign::class);
+        return $this->hasMany(Campaign::class);
     }
 
 

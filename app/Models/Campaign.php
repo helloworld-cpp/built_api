@@ -16,22 +16,13 @@ class Campaign extends Model{
         'slug',
     ];
 
+    // Relationship with the other tables //
     public function companies(){
         return $this->belongsTo(Company::class);
     }
     public function tokens(){
         return $this->belongsTo(Token::class);
     }
-
-    public function sluggable(){
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
-
-
 
 
     // static method to create Slug //

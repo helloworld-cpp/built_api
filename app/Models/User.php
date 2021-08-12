@@ -41,6 +41,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // Relationship with the other tables //
     public function companies(){
         return $this->belongsToMany(Company::class);
     }

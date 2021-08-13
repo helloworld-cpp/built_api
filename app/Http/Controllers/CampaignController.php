@@ -25,14 +25,15 @@ class CampaignController extends Controller{
         if($request->token_id){
             $queryCount = Token::where('id',$request->token_id)->where('company_id',$request->company_id)->count();
             if( ($queryCount) == 0 ){
-                return response('Unsuccessful = "Combination of token_id and company_id not matches."');
+                return response('Unsuccessful = "Combination of token_id and company_id not matches."',409);
             }
         }
 
         $request->request->add(['slug' => Campaign::createSlug($request->name,$request->company_id)]); //add slug field to the request array
+
         $insert = Campaign::create($request->all());
 
-        return response($insert);
+        return response($insert,201);
 
     }
 

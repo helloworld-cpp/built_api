@@ -23,6 +23,7 @@ Route::post('/practice', 'App\Http\Controllers\PracticeController@check');
 
 
 
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

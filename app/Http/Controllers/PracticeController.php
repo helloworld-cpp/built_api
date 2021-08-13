@@ -32,4 +32,7 @@ class PracticeController extends Controller
         ]);
 
     }
+
+
+
 }

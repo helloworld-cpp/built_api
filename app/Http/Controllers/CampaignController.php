@@ -23,25 +23,16 @@ class CampaignController extends Controller{
 
         // checking if combination of token_id and company_id not exist in table:tokens //
         if($request->token_id){
-            $queryCount = DB::table('tokens')->where('id','=',$request->token_id)->having('company_id','=',$request->company_id)->count();
+            $queryCount = Token::where('id',$request->token_id)->where('company_id',$request->company_id)->count();
             if( ($queryCount) == 0 ){
-                return response()->json([
-                    'Unsuccessful' => "Combination of token_id and company_id not matches."
-                ]);
+                return response('Unsuccessful = "Combination of token_id and company_id not matches."');
             }
         }
 
-        $insert = Campaign::create([
-                'token_id' => $request->token_id,
-                'company_id' => $request->company_id,
-                'name' => $request->name,
-                'slug'=> Campaign::createSlug($request->name,$request->company_id),
-        ]);
+        $request->request->add(['slug' => Campaign::createSlug($request->name,$request->company_id)]); //add slug field to the request array
+        $insert = Campaign::create($request->all());
 
-        return response()->json([
-            'success' => "Great! created successfully.",
-            $insert,
-        ]);
+        return response($insert);
 
     }
 

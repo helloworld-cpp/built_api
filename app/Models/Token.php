@@ -11,6 +11,7 @@ class Token extends Model
 {
     use HasFactory;
     protected $table = 'tokens';
+
     protected $fillable = [
         'company_id',
         'name',
@@ -22,12 +23,10 @@ class Token extends Model
         return $this->belongsTo(Company::class);
     }
 
-//    public function setNameAttribute($value){ // mutator example //
-//        $this->attributes['name'] = strtolower($value);
-//    }
-//    public function getNameAttribute($value){ // accessor example //
-//        return ucfirst($value);
-//    }
+    public function setTokenAttribute(){ // mutator to add token //
+        $this->attributes['token'] = (string) Str::uuid();
+    }
+
 
 
 

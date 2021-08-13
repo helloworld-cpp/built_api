@@ -24,23 +24,16 @@ class TokenController extends Controller
         ]);
 
         // checking for any duplicate entry of name and company_id in the table tokens//
-        $queryCount = DB::table('tokens')->where('name','=',$request->name)->having('company_id','=',$request->company_id)->count();
+        $queryCount = Token::where('name',$request->name)->where('company_id',$request->company_id)->count();
         if($queryCount > 0){
-            return response()->json([
-                            'Unsuccessful' => "Unique combination of name and company_id already exists."
-            ]);
+            return response('Unsuccessful = "Unique combination of name and company_id already exists."');
         }
 
-        $insert = Token::create([
-            'company_id' => $request->company_id,
-            'name' => $request->name,
-            'token' => (string) Str::uuid(),
-        ]);
+        $request->request->add(['token' => '']); //add token field to the request array
+        $insert = Token::create($request->all());
 
-        return response()->json([
-            'success' => "Great! created successfully.",
-            $insert
-        ]);
+        return response($insert);
+
 
     }
 }

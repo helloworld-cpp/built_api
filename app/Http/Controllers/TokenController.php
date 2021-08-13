@@ -20,7 +20,7 @@ class TokenController extends Controller
 
         $request->validate([
             'company_id' => ['required','numeric','exists:companies,id'],
-            'name' => ['required','regex:/^[^\s].[a-zA-Z0-9 ]+$/'],
+            'name' => ['required','regex:/^[a-zA-Z0-9 ]+$/'],
         ]);
 
         // checking for any duplicate entry of name and company_id in the table tokens//

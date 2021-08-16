@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUser;
 use App\Models\Campaign;
 use App\Models\Company;
 use App\Models\Token;
@@ -13,13 +14,7 @@ use Illuminate\Support\Str;
 
 class CampaignController extends Controller{
 
-    public function insert(Request $request){
-
-        $request->validate([
-            'company_id' => ['required','numeric','exists:companies,id'],
-            'name' => ['required','regex:/^[a-zA-Z0-9 ]+$/'],
-            'token_id' => ['nullable','numeric','exists:tokens,id'],
-        ]);
+    public function insert(StoreUser $request){
 
         // checking if combination of token_id and company_id not exist in table:tokens //
         if($request->token_id){

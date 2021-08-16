@@ -23,6 +23,7 @@ class Token extends Model
         return $this->belongsTo(Company::class);
     }
 
+
     public function setTokenAttribute(){ // mutator to add token //
         $this->attributes['token'] = (string) Str::uuid();
     }

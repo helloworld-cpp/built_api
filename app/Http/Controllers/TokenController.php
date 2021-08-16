@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUser;
 use App\Models\Campaign;
 use App\Models\Token;
 use Cviebrock\EloquentSluggable\Services\SlugService;
@@ -16,12 +17,7 @@ use function PHPUnit\Framework\assertDirectoryDoesNotExist;
 
 class TokenController extends Controller
 {
-    public function insert(Request $request){
-
-        $request->validate([
-            'company_id' => ['required','numeric','exists:companies,id'],
-            'name' => ['required','regex:/^[a-zA-Z0-9 ]+$/'],
-        ]);
+    public function insert(StoreUser $request){
 
         // checking for any duplicate entry of name and company_id in the table tokens//
         $queryCount = Token::where('name',$request->name)->where('company_id',$request->company_id)->count();

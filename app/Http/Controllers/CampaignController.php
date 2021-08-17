@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Event\CampaignCreated;
+use App\Event\UserCreated;
+use App\Http\Requests\CampaignRequest;
 use App\Http\Requests\StoreUser;
 use App\Models\Campaign;
 use App\Models\Company;
@@ -14,7 +17,7 @@ use Illuminate\Support\Str;
 
 class CampaignController extends Controller{
 
-    public function insert(StoreUser $request){
+    public function insert(CampaignRequest $request){
 
         // checking if combination of token_id and company_id not exist in table:tokens //
         if($request->token_id){
@@ -27,8 +30,9 @@ class CampaignController extends Controller{
         $request->request->add(['slug' => Campaign::createSlug($request->name,$request->company_id)]); //add slug field to the request array
 
         $insert = Campaign::create($request->all());
+        event(new CampaignCreated($insert));
 
-        return response($insert,201);
+        return response(Campaign::where('id',$insert->id)->get(),201);
 
     }
 

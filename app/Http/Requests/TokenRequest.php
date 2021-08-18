@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use App\Models\Token;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Symfony\Component\Console\Input\Input;
 
 class TokenRequest extends FormRequest
 {
@@ -24,6 +26,7 @@ class TokenRequest extends FormRequest
      */
     public function rules()
     {
+        Rule::unique('tokens', 'name','email_address')->ignore('id');
 
         return [
             'company_id' => ['required','numeric','exists:companies,id',],

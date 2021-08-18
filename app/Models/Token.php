@@ -15,7 +15,6 @@ class Token extends Model
     protected $fillable = [
         'company_id',
         'name',
-        'token',
     ];
 
     // Relationship with the other tables //
@@ -24,9 +23,9 @@ class Token extends Model
     }
 
 
-    public function setTokenAttribute(){ // mutator to add token //
-        $this->attributes['token'] = (string) Str::uuid();
-    }
+//    public function setTokenAttribute(){ // mutator to add token //
+//        $this->attributes['token'] = (string) Str::uuid();
+//    }
 
 
 

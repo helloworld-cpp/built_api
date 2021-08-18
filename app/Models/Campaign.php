@@ -13,7 +13,6 @@ class Campaign extends Model{
         'company_id',
         'token_id',
         'name',
-        'slug',
     ];
 
     // Relationship with the other tables //

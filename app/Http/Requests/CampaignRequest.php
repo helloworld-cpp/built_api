@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Campaign;
+use App\Rules\CampaignRule;
 use App\Rules\TokenRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,7 +28,7 @@ class CampaignRequest extends FormRequest
     {
         return [
             'company_id' => ['required','numeric','exists:companies,id'],
-            'name' => ['required','regex:/^[a-zA-Z0-9 ]+$/'],
+            'name' => ['required','regex:/^[a-zA-Z0-9 ]+$/',new CampaignRule($this->all())],
             'token_id' => ['nullable','numeric','exists:tokens,id'],
         ];
     }

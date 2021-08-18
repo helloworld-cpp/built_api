@@ -27,7 +27,6 @@ class CampaignController extends Controller{
             }
         }
 
-        $request->request->add(['slug' => Campaign::createSlug($request->name,$request->company_id)]); //add slug field to the request array
 
         $insert = Campaign::create($request->all());
         event(new CampaignCreated($insert));

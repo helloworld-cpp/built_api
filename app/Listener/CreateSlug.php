@@ -29,6 +29,6 @@ class CreateSlug
     public function handle(CampaignCreated $event)
     {
         $slug = Campaign::createSlug($event->campaign->name,$event->campaign->company_id); //add slug field to the request array
-        Campaign::where('name',$event->campaign->id)->update(['slug' => $slug]);
+        Campaign::where('id',$event->campaign->id)->update(['slug' => $slug]);
     }
 }

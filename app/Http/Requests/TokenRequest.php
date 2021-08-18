@@ -28,8 +28,8 @@ class TokenRequest extends FormRequest
     public function rules()
     {
         return [
-            'company_id' => ['required','numeric','exists:companies,id',new TokenRule($this->all())],
-            'name' => ['required','regex:/^[a-zA-Z0-9 ]+$/'],
+            'company_id' => ['required','numeric','exists:companies,id',],
+            'name' => ['required','regex:/^[a-zA-Z0-9 ]+$/',new TokenRule($this->all())],
         ];
 
     }

@@ -27,11 +27,15 @@ class TokenRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        $name = $this->data['name'];
-        $company_id = $this->data['company_id'];
-        $queryCount = Token::where('name',$name)->where('company_id',$company_id)->count();
-        if($queryCount > 0){
-            return false;
+        if(array_key_exists("name",$this->data)
+            && array_key_exists("company_id",$this->data)
+        ){
+            $name = $this->data['name'];
+            $company_id = $this->data['company_id'];
+            $queryCount = Token::where('name',$name)->where('company_id',$company_id)->count();
+            if($queryCount > 0){
+                return false;
+            }
         }
         return true;
 

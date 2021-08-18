@@ -28,8 +28,8 @@ class CampaignRequest extends FormRequest
     {
         return [
             'company_id' => ['required','numeric','exists:companies,id'],
-            'name' => ['required','regex:/^[a-zA-Z0-9 ]+$/',new CampaignRule($this->all())],
             'token_id' => ['nullable','numeric','exists:tokens,id'],
+            'name' => ['required','regex:/^[a-zA-Z0-9 ]+$/',new CampaignRule($this->all())],
         ];
     }
 }

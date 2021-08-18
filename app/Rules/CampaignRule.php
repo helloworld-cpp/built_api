@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Models\Campaign;
 use App\Models\Token;
 use Illuminate\Contracts\Validation\Rule;
 
@@ -27,10 +28,13 @@ class CampaignRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        $company_id = $this->data['company_id'];
 
-        if(array_key_exists("token_id",$this->data)){
+        if(array_key_exists("token_id",$this->data)
+            && array_key_exists("name",$this->data)
+            && array_key_exists("company_id",$this->data)
+        ){
             $token_id = $this->data['token_id'];
+            $company_id = $this->data['company_id'];
             $queryCount = Token::where('id',$token_id)->where('company_id',$company_id)->count();
             if( ($queryCount) == 0 ){
                 return false;

@@ -17,12 +17,8 @@ use Illuminate\Support\Str;
 class CampaignController extends Controller{
 
     public function insert(CampaignRequest $request){
-
-        $insert = Campaign::create($request->all());
-        event(new CampaignCreated($insert));
-
+        $insert = Campaign::customCreate($request);
         return response(Campaign::where('id',$insert->id)->get(),201);
-
     }
 
 }

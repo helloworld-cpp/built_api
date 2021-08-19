@@ -19,10 +19,7 @@ use function PHPUnit\Framework\assertDirectoryDoesNotExist;
 class TokenController extends Controller
 {
     public function insert(TokenRequest $request){
-
-        $insert = Token::create($request->all());
-        event(new UserCreated($insert));
+        $insert = Token::customCreate($request);
         return response(Token::where('id',$insert->id)->get(),201);
-
     }
 }

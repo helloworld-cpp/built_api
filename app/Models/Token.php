@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Event\UserCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -20,6 +21,12 @@ class Token extends Model
     // Relationship with the other tables //
     public function companies(){
         return $this->belongsTo(Company::class);
+    }
+
+    public static function customCreate($request){
+        $insert = static::create($request->all());
+        event(new UserCreated($insert));
+        return $insert;
     }
 
 

@@ -25,12 +25,25 @@ class TokenRequest extends FormRequest
      *
      * @return array
      */
+
+
+
+
     public function rules()
     {
         return [
-            'company_id' => ['required','numeric','exists:companies,id',],
-            'name' => ['required','regex:/^[a-zA-Z0-9 ]+$/',new TokenRule($this->all())],
+            'company_id' => ['bail','required','numeric','exists:companies,id',],
+            'name' => ['required','regex:/^[a-zA-Z0-9 ]+$/',
+                Rule::unique('tokens')->where(function ($query) {
+                    return $query->where('name',$this->name)->where('company_id',$this->company_id);
+                }),
+            ],
         ];
-
     }
+    public function messages(){
+        return [
+            "name.unique" => 'Unsuccessful = Unique combination of name and company_id already exists.',
+        ];
+    }
+
 }

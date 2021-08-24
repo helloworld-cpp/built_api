@@ -3,14 +3,18 @@
 namespace App\Models;
 
 use App\Event\UserCreated;
+use App\Listener\CreateToken;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
-class Token extends Model
+class Token extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory,Notifiable;
+
     protected $table = 'tokens';
 
     protected $fillable = [
@@ -18,16 +22,17 @@ class Token extends Model
         'name',
     ];
 
+    protected $dispatchesEvents = [
+        'created' => UserCreated::class,
+    ];
+
+
     // Relationship with the other tables //
     public function companies(){
         return $this->belongsTo(Company::class);
     }
 
-    public static function customCreate($request){
-        $insert = static::create($request->all());
-        event(new UserCreated($insert));
-        return $insert;
-    }
+
 
 
 //    public function setTokenAttribute(){ // mutator to add token //

@@ -5,16 +5,22 @@ namespace App\Models;
 use App\Event\CampaignCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
 class Campaign extends Model{
 
-    use HasFactory;
+    use HasFactory,Notifiable;
     protected $fillable = [
         'company_id',
         'token_id',
         'name',
     ];
+
+    protected $dispatchesEvents = [
+        'created' => CampaignCreated::class,
+    ];
+
 
     // Relationship with the other tables //
     public function companies(){
@@ -24,11 +30,6 @@ class Campaign extends Model{
         return $this->belongsTo(Token::class);
     }
 
-    public static function customCreate($request){
-        $insert = static::create($request->all());
-        event(new CampaignCreated($insert));
-        return $insert;
-    }
 
     // static method to create Slug //
     public static function createSlug($name,$company_id) { // generate company wise unique slug //

@@ -3,8 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Campaign;
-use App\Rules\CampaignRule;
-use App\Rules\TokenRule;
+use App\Models\Token;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,15 +26,22 @@ class CampaignRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'company_id' => ['required','numeric','exists:companies,id'],
-            'token_id' => ['nullable','numeric','exists:tokens,id'],
-            'name' => ['required','regex:/^[a-zA-Z0-9 ]+$/',
-                    Rule::exists('tokens')->where(function ($query) {
+            'company_id' => ['bail','required','numeric','exists:companies,id'],
+            'token_id' => ['bail','nullable','numeric','exists:tokens,id'],
+            'name' => ['bail','required','regex:/^[a-zA-Z0-9 ]+$/',
+                Rule::exists('tokens')->where(function ($query) {
+                    if($this->company_id == NULL  || Token::where('company_id', '=', $this->company_id)->first() == NULL
+                        || Token::where('id', '=', $this->token_id)->first() == NULL){
+                        return true;
+                    }else{
                         return $query->where('id',$this->token_id)->where('company_id',$this->company_id);
-                    }),
-                ],
+                    }
+                }),
+            ],
         ];
+
     }
 
     public function messages(){

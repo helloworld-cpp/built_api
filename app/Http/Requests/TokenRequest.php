@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Models\Token;
-use App\Rules\TokenRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Symfony\Component\Console\Input\Input;
@@ -33,7 +32,7 @@ class TokenRequest extends FormRequest
     {
         return [
             'company_id' => ['bail','required','numeric','exists:companies,id',],
-            'name' => ['required','regex:/^[a-zA-Z0-9 ]+$/',
+            'name' => ['bail','required','regex:/^[a-zA-Z0-9 ]+$/',
                 Rule::unique('tokens')->where(function ($query) {
                     return $query->where('name',$this->name)->where('company_id',$this->company_id);
                 }),

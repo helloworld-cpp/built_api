@@ -19,12 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('/insert_token', 'App\Http\Controllers\TokenController@store');
 Route::post('/insert_campaign', 'App\Http\Controllers\CampaignController@store');
 
-Route::get('/get/{$companyName}', 'App\Http\Controllers\ShowController@show');
-Route::post('/practice', 'App\Http\Controllers\PracticeController@check');
 
-
-
-Route::resource('learning', 'App\Http\Controllers\LearnController');
+//Route::get('/get/{$companyName}', 'App\Http\Controllers\ShowController@show');
+//Route::post('/practice', 'App\Http\Controllers\PracticeController@check');
+//Route::resource('learning', 'App\Http\Controllers\LearnController');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

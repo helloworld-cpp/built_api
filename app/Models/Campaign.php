@@ -17,10 +17,13 @@ class Campaign extends Model{
         'name',
     ];
 
-    protected $dispatchesEvents = [
-        'created' => CampaignCreated::class,
-    ];
-
+    public static function boot() {
+        parent::boot();
+        static::creating(function($item) {
+            $slug = self::createSlug($item->name, $item->company_id);
+            $item->slug = $slug;
+        });
+    }
 
     // Relationship with the other tables //
     public function companies(){

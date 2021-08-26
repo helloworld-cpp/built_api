@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class Token extends Authenticatable
@@ -22,9 +23,12 @@ class Token extends Authenticatable
         'name',
     ];
 
-    protected $dispatchesEvents = [
-        'created' => UserCreated::class,
-    ];
+    public static function boot() {
+        parent::boot();
+        static::creating(function($item) {
+            $item->token = (string) Str::uuid();
+        });
+    }
 
 
     // Relationship with the other tables //

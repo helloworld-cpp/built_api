@@ -32,17 +32,17 @@ class CampaignRequest extends FormRequest
             'token_id' => ['bail','nullable','numeric','exists:tokens,id'],
             'name' => ['bail','required','regex:/^[a-zA-Z0-9 ]+$/',
                 Rule::exists('tokens')->where(function ($query) {
-                    if($this->company_id == NULL  || Token::where('company_id', '=', $this->company_id)->first() == NULL
-                        || Token::where('id', '=', $this->token_id)->first() == NULL){
-                        return true;
-                    }else{
-                        return $query->where('id',$this->token_id)->where('company_id',$this->company_id);
-                    }
+                    if($this->token_id == NULL) return true;
+                    return $query->where('id',$this->token_id)->where('company_id',$this->company_id);
+
                 }),
+
             ],
         ];
 
     }
+
+
 
     public function messages(){
         return [

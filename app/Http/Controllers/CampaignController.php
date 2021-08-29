@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Event\CampaignCreated;
-use App\Event\UserCreated;
 use App\Http\Requests\CampaignRequest;
 use App\Models\Campaign;
 use App\Models\Company;

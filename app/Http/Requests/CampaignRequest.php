@@ -6,6 +6,7 @@ use App\Models\Campaign;
 use App\Models\Token;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use phpDocumentor\Reflection\Types\Null_;
 
 class CampaignRequest extends FormRequest
 {
@@ -28,25 +29,21 @@ class CampaignRequest extends FormRequest
     {
 
         return [
-            'company_id' => ['bail','required','numeric','exists:companies,id'],
-            'token_id' => ['bail','nullable','numeric','exists:tokens,id'],
-            'name' => ['bail','required','regex:/^[a-zA-Z0-9 ]+$/',
+            'token_id' => ['bail','nullable','numeric','exists:tokens,id',],
+            'name' => ['bail','required','regex:/^[a-zA-Z0-9 ]+$/',],
+            'company_id' => ['bail','required','numeric','exists:companies,id',
                 Rule::exists('tokens')->where(function ($query) {
-                    if($this->token_id == NULL) return true;
-                    return $query->where('id',$this->token_id)->where('company_id',$this->company_id);
-
-                }),
-
+                    if($this->token_id == null) return true;
+                    $query->where('id', $this->token_id);}
+                ),
             ],
         ];
 
     }
 
-
-
     public function messages(){
         return [
-            "name.exists" => 'Unsuccessful = Combination of token_id and company_id not matches.',
+            "company_id.exists" => 'Unsuccessful = Combination of token_id and company_id not matches.',
         ];
     }
 }

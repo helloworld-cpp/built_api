@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 // its the routing for the two api //
 
 
-Route::post('/insert_token', 'App\Http\Controllers\TokenController@store');
+Route::post('/insert_token', 'App\Http\Controllers\TokenController@store')->name('insert_token');
 Route::post('/insert_campaign', 'App\Http\Controllers\CampaignController@store');
 
 

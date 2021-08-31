@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/insert_token', 'App\Http\Controllers\TokenController@store')->name('insert_token');
 Route::post('/insert_campaign', 'App\Http\Controllers\CampaignController@store');
 
+Route::get('/practice', 'App\Http\Controllers\PracticeController@check');
 
 //Route::get('/get/{$companyName}', 'App\Http\Controllers\ShowController@show');
 //Route::post('/practice', 'App\Http\Controllers\PracticeController@check');
